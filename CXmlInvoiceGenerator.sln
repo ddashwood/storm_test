@@ -10,6 +10,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{12942F7D-D69C-4060-8C23-AB7A1B9F19A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source DTD", "Source DTD", "{C6DAF719-C573-4933-9CFB-75A45F768CCF}"
+	ProjectSection(SolutionItems) = preProject
+		Schemas\Source DTD\InvoiceDetail.dtd = Schemas\Source DTD\InvoiceDetail.dtd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generated XSD", "Generated XSD", "{EEC8C17D-AED5-4344-A70E-301275280979}"
+	ProjectSection(SolutionItems) = preProject
+		Schemas\Generated XSD\InvoiceDetail.xsd = Schemas\Generated XSD\InvoiceDetail.xsd
+		Schemas\Generated XSD\InvoiceDetail1.xsd = Schemas\Generated XSD\InvoiceDetail1.xsd
+		Schemas\Generated XSD\InvoiceDetail2.xsd = Schemas\Generated XSD\InvoiceDetail2.xsd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +37,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{12942F7D-D69C-4060-8C23-AB7A1B9F19A6} = {6D91811C-5518-4BEC-8F82-C656F530ADD3}
+		{C6DAF719-C573-4933-9CFB-75A45F768CCF} = {12942F7D-D69C-4060-8C23-AB7A1B9F19A6}
+		{EEC8C17D-AED5-4344-A70E-301275280979} = {12942F7D-D69C-4060-8C23-AB7A1B9F19A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64CD3E42-85A2-440C-815F-D8954ECD6C41}
