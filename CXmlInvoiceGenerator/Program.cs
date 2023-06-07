@@ -14,10 +14,12 @@ var host = Host.CreateDefaultBuilder()
         services.AddScoped<IDatabaseRepository, DatabaseRepository>();
         services.AddScoped<IInvoiceLoader, InvoiceLoader>();
         services.AddScoped<ICxmlGenerator, CxmlGenerator>();
+        services.AddScoped<IInvoiceWriter, InvoiceWriter>();
         services.AddScoped<IDateTimeServices, DateTimeServices>();
         services.AddSingleton(new Invoices());
 
         services.Configure<CxmlConfig>(context.Configuration.GetSection("CXML"));
+        services.Configure<WriterConfig>(context.Configuration.GetSection("Writer"));
     })
     .ConfigureLogging((context, logging) =>
     {
