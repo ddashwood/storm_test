@@ -24,12 +24,12 @@ internal class InvoiceGenerator : IInvoiceGenerator
     {
         try
         {
-            await foreach (var invoice in _invoiceLoader.LoadNewInvoices())
+            await foreach (var invoice in _invoiceLoader.LoadNewInvoicesAsync())
             {
                 _logger.LogDebug("Got row: " + invoice.ToString());
                 var cxml = _cxmlGenerator.GenerateCxml(invoice);
                 _logger.LogDebug("Converted row to CXml");
-                await _invoiceWriter.WriteCxmlInvoice(cxml);
+                await _invoiceWriter.WriteCxmlInvoiceAsync(cxml);
                 _logger.LogDebug("CXml written to file system");
             }
         }

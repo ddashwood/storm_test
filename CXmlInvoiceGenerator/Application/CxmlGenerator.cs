@@ -92,6 +92,8 @@ internal class CxmlGenerator : ICxmlGenerator
                 ManufacturerName = new ManufacturerName { lang = _config.ManufacturerLang, Value = item.Manufacturer }
             },
             NetAmount = new NetAmount { Money = new Money { currency = invoice.CurrencyCode, Value = item.LineTotal.ToString() } },
+
+            // To do - confirm with the product owner what type of rounding we should be using here, set to banker's rounding ("to even") for now.
             GrossAmount = new GrossAmount { Money = new Money { currency = invoice.CurrencyCode, Value = decimal.Round(item.LineTotal * (1 + invoice.VATPercentage / 100m), 2, MidpointRounding.ToEven).ToString() } },
         }).ToArray();
         return invoiceDetailOrder;

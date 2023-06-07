@@ -14,7 +14,7 @@ internal class InvoiceWriter : IInvoiceWriter
         _config = options.Value;
     }
 
-    public Task WriteCxmlInvoice(cXML invoice)
+    public Task WriteCxmlInvoiceAsync(cXML invoice)
     {
         var request = invoice.Items.OfType<Request>().Single();
         var detail = (InvoiceDetailRequest)request.Item;

@@ -42,7 +42,7 @@ public class InvoiceGeneratorTests
             new Invoice(invoices.Rows[1])
         }.ToAsyncEnumerable();
 
-        loaderMock.Setup(m => m.LoadNewInvoices()).Returns(data);
+        loaderMock.Setup(m => m.LoadNewInvoicesAsync()).Returns(data);
 
         var generator = new InvoiceGenerator(loggerMock.Object, loaderMock.Object, generatorMock.Object, writerMock.Object);
 
@@ -54,7 +54,7 @@ public class InvoiceGeneratorTests
 
         generatorMock.Verify(m => m.GenerateCxml(It.Is<Invoice>(i => i.Id == 1234)), Times.Once);
         generatorMock.Verify(m => m.GenerateCxml(It.Is<Invoice>(i => i.Id == 1235)), Times.Once);
-        writerMock.Verify(m => m.WriteCxmlInvoice(It.Is<cXML>(cxml => cxml.payloadID == "Test1")), Times.Once);
-        writerMock.Verify(m => m.WriteCxmlInvoice(It.Is<cXML>(cxml => cxml.payloadID == "Test2")), Times.Once);
+        writerMock.Verify(m => m.WriteCxmlInvoiceAsync(It.Is<cXML>(cxml => cxml.payloadID == "Test1")), Times.Once);
+        writerMock.Verify(m => m.WriteCxmlInvoiceAsync(It.Is<cXML>(cxml => cxml.payloadID == "Test2")), Times.Once);
     }
 }

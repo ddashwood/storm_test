@@ -7,5 +7,5 @@ internal interface IInvoiceWriter
     /// </summary>
     /// <param name="invoice">The CXml invoice to write.</param>
     /// <returns>A Task representing the writing of the file.</returns>
-    Task WriteCxmlInvoice(cXML invoice);
+    Task WriteCxmlInvoiceAsync(cXML invoice);
 }

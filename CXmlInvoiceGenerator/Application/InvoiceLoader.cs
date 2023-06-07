@@ -17,7 +17,7 @@ internal class InvoiceLoader : IInvoiceLoader
         _databaseRepository = databaseRepository;
     }
 
-    public async IAsyncEnumerable<Invoice> LoadNewInvoices()
+    public async IAsyncEnumerable<Invoice> LoadNewInvoicesAsync()
     {
         var newInvoices = _databaseRepository.GetNewInvoices();
         _logger.LogDebug("Number of invoices: " + newInvoices.Rows.Count);

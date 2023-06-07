@@ -9,7 +9,7 @@ namespace CXmlInvoiceGeneratorTests.Application;
 public class InvoiceLoaderTests
 {
     [Fact]
-    public async Task LoadNewInvoicesTest()
+    public async Task LoadNewInvoicesAsyncTest()
     {
         // Arrange
 
@@ -63,7 +63,7 @@ public class InvoiceLoaderTests
 
         // Act
 
-        var results = await loader.LoadNewInvoices().ToListAsync();
+        var results = await loader.LoadNewInvoicesAsync().ToListAsync();
 
         // Assert
 

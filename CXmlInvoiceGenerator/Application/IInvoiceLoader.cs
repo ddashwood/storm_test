@@ -10,5 +10,5 @@ internal interface IInvoiceLoader
     /// supports future asynchronous implementations.
     /// </summary>
     /// <returns>An IAsyncEnumerable containing the invoices.</returns>
-    IAsyncEnumerable<Invoice> LoadNewInvoices();
+    IAsyncEnumerable<Invoice> LoadNewInvoicesAsync();
 }
