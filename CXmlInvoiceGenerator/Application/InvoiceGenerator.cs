@@ -1,9 +1,6 @@
-﻿using CXmlInvoiceGenerator.Models;
-using CXmlInvoiceGenerator.Repositories;
-using DatabaseAccess;
-using Microsoft.Extensions.Logging;
-using System.Data;
-using System.Linq.Expressions;
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Xml.Serialization;
 
 namespace CXmlInvoiceGenerator.Application;
 
@@ -11,11 +8,13 @@ internal class InvoiceGenerator : IInvoiceGenerator
 {
     private readonly ILogger<InvoiceGenerator> _logger;
     private readonly IInvoiceLoader _invoiceLoader;
+    private readonly ICxmlGenerator _cxmlGenerator;
 
-    public InvoiceGenerator(ILogger<InvoiceGenerator> logger, IInvoiceLoader invoiceLoader)
+    public InvoiceGenerator(ILogger<InvoiceGenerator> logger, IInvoiceLoader invoiceLoader, ICxmlGenerator cxmlGenerator)
     {
         _logger = logger;
         _invoiceLoader = invoiceLoader;
+        _cxmlGenerator = cxmlGenerator;
     }
 
     public async Task GenerateCXMLForNewInvoicesAsync()
@@ -56,6 +55,37 @@ internal class InvoiceGenerator : IInvoiceGenerator
             await foreach (var invoice in _invoiceLoader.LoadNewInvoices())
             {
                 _logger.LogDebug("Got row: " + invoice.ToString());
+                var cxml = _cxmlGenerator.GenerateCxml(invoice);
+
+                using (var stream = new MemoryStream())
+                {
+                    // There are some properties which we want to include in generated XML even if they are the 
+                    // default. Here we override the default (set it to null) for these properties.
+
+                    XmlAttributeOverrides attributeOverrides = new XmlAttributeOverrides();
+
+                    var attributes = new XmlAttributes()
+                    {
+                        XmlDefaultValue = null,
+                        XmlAttribute = new XmlAttributeAttribute()
+                    };
+
+                    attributeOverrides.Add(typeof(InvoiceDetailRequestHeader), "purpose", attributes);
+                    attributeOverrides.Add(typeof(InvoiceDetailRequestHeader), "operation", attributes);
+
+                    var serialiser = new XmlSerializer(typeof(cXML), attributeOverrides);
+
+                    // Now we can use the serializer with the attribute overrides set correctly.
+
+                    serialiser.Serialize(stream, cxml);
+
+                    stream.Position = 0;
+
+                    using(var reader = new StreamReader(stream))
+                    {
+                        var xml = await reader.ReadToEndAsync();
+                    }
+                }
             }
         }
         catch (Exception ex)
