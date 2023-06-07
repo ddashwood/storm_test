@@ -2,6 +2,9 @@
 
 namespace CXmlInvoiceGenerator.Models;
 
+/// <summary>
+/// Represents an address on an invoice.
+/// </summary>
 internal class Address
 {
     public string ContactName { get; }

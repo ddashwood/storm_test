@@ -1,4 +1,5 @@
 ﻿using CXmlInvoiceGenerator.Models;
+using CXmlInvoiceGenerator.Repositories;
 using DatabaseAccess;
 using Microsoft.Extensions.Logging;
 using System.Data;
@@ -9,13 +10,15 @@ namespace CXmlInvoiceGenerator.Application;
 internal class InvoiceGenerator : IInvoiceGenerator
 {
     private readonly ILogger<InvoiceGenerator> _logger;
+    private readonly IInvoiceLoader _invoiceLoader;
 
-    public InvoiceGenerator(ILogger<InvoiceGenerator> logger)
+    public InvoiceGenerator(ILogger<InvoiceGenerator> logger, IInvoiceLoader invoiceLoader)
     {
         _logger = logger;
+        _invoiceLoader = invoiceLoader;
     }
 
-    public void GenerateCXMLForNewInvoices()
+    public async Task GenerateCXMLForNewInvoicesAsync()
     {
         // == Please complete this function ==
 
@@ -48,33 +51,11 @@ internal class InvoiceGenerator : IInvoiceGenerator
 
         // You may move this code into another class (or indeed classes) of your choosing
 
-        DataTable newInvoices;
         try
         {
-            Invoices invoiceDB = new();
-            newInvoices = invoiceDB.GetNewInvoices();
-            _logger.LogDebug("Number of invoices: " + newInvoices.Rows.Count);
-
-            string invoiceNo = null!;
-
-            foreach (DataRow invoiceRow in newInvoices.Rows)
+            await foreach (var invoice in _invoiceLoader.LoadNewInvoices())
             {
-                try
-                {
-                    invoiceNo = "(Unknown)";
-                    invoiceNo = invoiceRow["Id"].ToString() ?? invoiceNo;
-
-                    var invoice = new Invoice(invoiceRow);
-                    invoice.LoadInvoiceItems(invoiceDB.GetItemsOnInvoice(invoice.Id));
-                    invoice.LoadBillingAddress(invoiceDB.GetBillingAddressForInvoice(invoice.Id));
-                    invoice.LoadDeliveryAddress(invoiceDB.GetDeliveryAddressForSalesOrder(invoice.SalesOrderId));
-
-                    _logger.LogDebug("Got row: " + invoice.ToString());
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error while working on invoice number " + invoiceNo);
-                }
+                _logger.LogDebug("Got row: " + invoice.ToString());
             }
         }
         catch (Exception ex)
@@ -82,8 +63,5 @@ internal class InvoiceGenerator : IInvoiceGenerator
             _logger.LogCritical(ex, "Error loading invoices");
             return;
         }
-
-
-        // invoiceDB contains other functions you will need...
     }
 }

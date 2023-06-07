@@ -2,6 +2,9 @@
 
 namespace CXmlInvoiceGenerator.Models;
 
+/// <summary>
+/// Represents an invoice.
+/// </summary>
 internal class Invoice
 {
     public int Id { get; }

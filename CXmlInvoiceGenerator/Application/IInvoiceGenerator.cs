@@ -2,5 +2,9 @@
 
 internal interface IInvoiceGenerator
 {
-    void GenerateCXMLForNewInvoices();
+    /// <summary>
+    /// Generates CXml for new invoices asynchronously.
+    /// </summary>
+    /// <returns>A Task representing the invoice generation.</returns>
+    Task GenerateCXMLForNewInvoicesAsync();
 }
