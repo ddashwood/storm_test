@@ -21,7 +21,7 @@ var host = Host.CreateDefaultBuilder()
         services.Configure<CxmlConfig>(context.Configuration.GetSection("CXML"));
         services.Configure<WriterConfig>(context.Configuration.GetSection("Writer"));
     })
-    .ConfigureLogging((context, logging) =>
+    .ConfigureLogging(logging =>
     {
         logging.ClearProviders()
             .AddConsole();
