@@ -83,6 +83,7 @@ public class CxmlGeneratorTests
         var optionsMock = new Mock<IOptions<CxmlConfig>>();
         var dateTimeMock = new Mock<IDateTimeServices>();
 
+        dateTimeMock.Setup(m => m.Now).Returns(new DateTime(2023, 6, 1, 9, 5, 10));
         optionsMock.Setup(m => m.Value).Returns(new CxmlConfig { Purpose = "standard", Operation = "new" });
 
         var generator = new CxmlGenerator(optionsMock.Object, dateTimeMock.Object);
@@ -94,10 +95,15 @@ public class CxmlGeneratorTests
         // Assert
 
         // Check a sample of the data in the CXml - other data checks can be added as required later
+
+        // Check the ID
         var request = cxml.Items.OfType<Request>().Single();
         var detail = (InvoiceDetailRequest)request.Item;
         var id = detail.InvoiceDetailRequestHeader.invoiceID;
         Assert.Equal("1234", id);
+
+        // Check the invoice date/time (which also confirms that the mock date/time service is being used correctly)
+        Assert.Equal(new DateTime(2023, 6, 1, 9, 5, 10).ToString("s"), detail.InvoiceDetailRequestHeader.invoiceDate);
     }
 
     private static Invoice GetInvoice()
