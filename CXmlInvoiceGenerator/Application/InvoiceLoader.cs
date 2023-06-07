@@ -1,6 +1,5 @@
 ﻿using CXmlInvoiceGenerator.Models;
 using CXmlInvoiceGenerator.Repositories;
-using DatabaseAccess;
 using Microsoft.Extensions.Logging;
 using System.Data;
 
