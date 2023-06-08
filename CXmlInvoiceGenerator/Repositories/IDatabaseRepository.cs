@@ -2,6 +2,10 @@
 
 namespace CXmlInvoiceGenerator.Repositories;
 
+/// <summary>
+/// Wrapper around the supplied database. Providing a wrapper with an interface
+/// means it can be easily mocked.
+/// </summary>
 internal interface IDatabaseRepository
 {
     /// <summary>

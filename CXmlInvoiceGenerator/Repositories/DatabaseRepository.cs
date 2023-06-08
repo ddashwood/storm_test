@@ -3,6 +3,7 @@ using System.Data;
 
 namespace CXmlInvoiceGenerator.Repositories;
 
+/// <inheritdoc cref="IDatabaseRepository"/>
 internal class DatabaseRepository : IDatabaseRepository
 {
     private readonly Invoices _invoiceDB;
